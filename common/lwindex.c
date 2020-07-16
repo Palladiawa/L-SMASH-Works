@@ -2030,7 +2030,6 @@ static void create_index
     /*
         # Structure of Libav reader index file
         <LibavReaderIndexFile=16>
-        <InputFilePath>foobar.omo</InputFilePath>
         <FileSize=1048576>
         <FileHash=0x1234abcd>
         <LibavReaderIndex=0x00000208,0,marumoska>
@@ -2088,7 +2087,6 @@ static void create_index
         fprintf( index, "<LSMASHWorksIndexVersion=%" PRIu8 ".%" PRIu8 ".%" PRIu8 ".%" PRIu8 ">\n",
                  lwindex_version[0], lwindex_version[1], lwindex_version[2], lwindex_version[3] );
         fprintf( index, "<LibavReaderIndexFile=%d>\n", LWINDEX_INDEX_FILE_VERSION );
-        fprintf( index, "<InputFilePath>%s</InputFilePath>\n", lwhp->file_path );
 #ifdef _WIN32
         wchar_t *wname;
         struct _stat64 file_stat;
@@ -2799,8 +2797,6 @@ static int parse_index
     /* Test to open the target file. */
     char file_path[512] = { 0 };
     int32_t current_pos = ftell( index );
-    if( fscanf( index, "<InputFilePath>%[^\n<]</InputFilePath>\n", file_path ) != 1 )
-        fseek( index, current_pos, SEEK_SET ); /* temporary hack for existing index file, will be removed eventually */
     size_t file_path_length = strlen( opt->file_path );
     const char *ext = file_path_length >= 5 ? &opt->file_path[file_path_length - 4] : NULL;
     if( ext && !strncmp( ext, ".lwi", strlen( ".lwi" ) ) )
