@@ -12,3 +12,6 @@ meson build
 ninja -C build
 ninja -C build install
 ```
+
+if there is an ld error
+compile l-smash with --enable-shared flag.
